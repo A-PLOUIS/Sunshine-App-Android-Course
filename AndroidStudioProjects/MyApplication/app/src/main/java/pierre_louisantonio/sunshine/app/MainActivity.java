@@ -1,5 +1,6 @@
 package pierre_louisantonio.sunshine.app;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -64,48 +65,7 @@ public class MainActivity extends ActionBarActivity {
         public PlaceholderFragment() {
         }
 
-        public void getWeather(){
-            HttpURLConnection connection = null;
-            BufferedReader reader     = null;
-            String forecastJsonStr    = null;
-
-            try {
-                URL url    = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.connect();
-
-                InputStream inputStream = connection.getInputStream();
-                StringBuilder builder   = new StringBuilder();
-                reader                  = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line + "\n");
-                }
-
-                forecastJsonStr = builder.toString();
-            } catch (IOException e) {
-                Log.e("PlaceholderFragment", "Error ", e);
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Log.e("PlaceholderFragment", "Error closing stream", e);
-                    }
-                }
-            }
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            getWeather();
+        public void populateListView(View rootView){
             // Create some dummy data for the ListView.  Here's a sample weekly forecast
             String[] data = {
                     "Mon 6/23 - Sunny - 31/17",
@@ -131,7 +91,47 @@ public class MainActivity extends ActionBarActivity {
             // Get a reference to the ListView, and attach this adapter to it.
             ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
             listView.setAdapter(forecastAdapter);
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            populateListView(rootView);
+
+
+            new DownloaderWeatherTask().execute("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
             return rootView;
         }
+
+        private class DownloaderWeatherTask extends AsyncTask<String,Void,String>{
+
+            @Override
+            protected String doInBackground(String... urls) {
+                HttpURLConnection conn = null;
+
+                try{
+                    URL url = new URL(urls[0]);
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setReadTimeout(10000); // millis
+                    conn.setConnectTimeout(15000); // millis
+                    conn.setDoInput(true);
+                    conn.connect();
+                    int response = conn.getResponseCode();
+                    Log.d("HEADERHTTP", "The response is: " + response);
+
+                }catch (IOException e){
+                    Log.e("Connection","Erreur",e);
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                Log.i("ASYNC","Réussi");
+            }
+        }
     }
+
 }
