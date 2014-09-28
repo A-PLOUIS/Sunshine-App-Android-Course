@@ -100,10 +100,11 @@ public class MainActivity extends ActionBarActivity {
             populateListView(rootView);
 
 
-            new DownloaderWeatherTask().execute("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
+            new DownloaderWeatherTask().execute("http://api.openweathermap.org/data/2.5/forecast/daily?q=3570584&mode=json&units=metric&cnt=7");
             return rootView;
         }
 
+        //Classe se chargeant de télécharger les informations du OpenWeather
         private class DownloaderWeatherTask extends AsyncTask<String,Void,String>{
 
             @Override
