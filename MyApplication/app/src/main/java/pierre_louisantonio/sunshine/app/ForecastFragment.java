@@ -270,19 +270,15 @@ public class ForecastFragment extends Fragment {
                 highAndLow = formatHighLows(high, low);
                 resultStrs[i] = day + " - " + description + " - " + highAndLow;
             }
-
-            for (String s : resultStrs) {
-                Log.v(LOG_TAG,"Forecast entry : " +s);
-            }
-
             return resultStrs;
         }
 
         @Override
-        protected void onPostExecute(String[] strings) {
-
-            mForecastAdapter.clear();
-            mForecastAdapter.addAll(strings);
+        protected void onPostExecute(String[] result) {
+            if(result != null){
+                mForecastAdapter.clear();
+                mForecastAdapter.addAll(result);
+            }
         }
     }
 }
