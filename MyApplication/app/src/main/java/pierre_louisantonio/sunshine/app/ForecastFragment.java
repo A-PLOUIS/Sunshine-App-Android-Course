@@ -78,6 +78,7 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
+            new FetchWeatherTask().execute("http://api.openweathermap.org/data/2.5/forecast/daily?id=3570584&mode=json&units=metric&cnt=7");
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -88,15 +89,14 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         populateListView(rootView);
-
-        new FetchWeatherTask().execute("http://api.openweathermap.org/data/2.5/forecast/daily?id=3570584&mode=json&units=metric&cnt=7");
         return rootView;
     }
 
     //Classe se chargeant de télécharger les informations du OpenWeather
     private class FetchWeatherTask extends AsyncTask<String,Void,String> {
 
-        @Override
+        private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
+
         protected String doInBackground(String... urls) {
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
@@ -133,6 +133,7 @@ public class ForecastFragment extends Fragment {
                     forecastJsonStr = null;
                 }
                 forecastJsonStr = buffer.toString();
+                Log.i(LOG_TAG,"JSON recu = " + forecastJsonStr);
 
             }catch (IOException e){
                 Log.e("Connection","Erreur",e);
