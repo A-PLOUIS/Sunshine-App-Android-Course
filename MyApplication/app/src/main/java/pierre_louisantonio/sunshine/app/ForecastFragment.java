@@ -48,17 +48,6 @@ public class ForecastFragment extends Fragment {
     }
 
     public void populateListView(View rootView){
-        // Create some dummy data for the ListView.  Here's a sample weekly forecast
-        String[] data = {
-                "Mon 6/23 - Sunny - 31/17",
-                "Tue 6/24 - Foggy - 21/8",
-                "Wed 6/25 - Cloudy - 22/17",
-                "Thurs 6/26 - Rainy - 18/11",
-                "Fri 6/27 - Foggy - 21/10",
-                "Sat 6/28 - TRAPPED IN WEATHERSTATION - 23/18",
-                "Sun 6/29 - Sunny - 20/7"
-        };
-        List<String> weekForecast = new ArrayList<String>(Arrays.asList(data));
 
         // Now that we have some dummy forecast data, create an ArrayAdapter.
         // The ArrayAdapter will take data from a source (like our dummy forecast) and
@@ -68,7 +57,7 @@ public class ForecastFragment extends Fragment {
                         getActivity(), // The current context (this activity)
                         R.layout.list_item_forecast, // The name of the layout ID.
                         R.id.list_item_forecast_textview, // The ID of the textview to populate.
-                        weekForecast);
+                        new ArrayList<String>());
 
         // Get a reference to the ListView, and attach this adapter to it.
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
@@ -99,13 +88,25 @@ public class ForecastFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        updateweather();
+    }
+
+    private void updateweather(){
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
+        final String PREFS_FILE= getString(R.xml.pref_general);
+        Log.d(LOG_TAG,"Pref_file : " + PREFS_FILE);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+        String location = preferences.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_key_default));
+        Log.d(LOG_TAG,"Location in settings = " + location);
+        fetchWeatherTask.execute(location);
+    }
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String location = preferences.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_key_default));
-            fetchWeatherTask.execute(location);
+
             return true;
         }
         return super.onOptionsItemSelected(item);
