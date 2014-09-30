@@ -4,12 +4,7 @@
 
     <header
     android:fragment="pierre_louisantonio.sunshine.app.SettingsActivity$GeneralPreferenceFragment"
-    android:title="@string/pref_header_general"
-       >
-        <extra
-            android:name="location"
-            android:value="@string/pref_location_key"/>
-       </header>
+    android:title="@string/pref_header_general"/>
 
     <header
         android:fragment="pierre_louisantonio.sunshine.app.SettingsActivity$NotificationPreferenceFragment"

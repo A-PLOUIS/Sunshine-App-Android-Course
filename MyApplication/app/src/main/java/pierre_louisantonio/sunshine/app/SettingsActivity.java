@@ -1,17 +1,12 @@
 package pierre_louisantonio.sunshine.app;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.KeyEvent;
-
-import java.util.List;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings.
@@ -24,7 +19,7 @@ import java.util.List;
 public class SettingsActivity extends PreferenceActivity
         implements Preference.OnPreferenceChangeListener {
 
-    private static String LOG_TAG = SettingsActivity.class.getSimpleName();
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Add 'general' preferences, defined in the XML file
@@ -33,7 +28,6 @@ public class SettingsActivity extends PreferenceActivity
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
         // updated when the preference changes.
         // TODO: Add preferences
-
     }
 
     /**
@@ -43,25 +37,14 @@ public class SettingsActivity extends PreferenceActivity
      */
     private void bindPreferenceSummaryToValue(Preference preference) {
         // Set the listener to watch for value changes.
-        final Context prefContext = this.getBaseContext();
-        preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                SharedPreferences spref = PreferenceManager.getDefaultSharedPreferences(prefContext);
-                if(spref.contains(preference.getKey())){
-                    String res =spref.getString(preference.getKey(),"");
-                    Log.i(LOG_TAG,res);
-                    return true;
-                }
-                return false;
-            }
-        });
-                // Trigger the listener immediately with the preference's
-                // current value.
-                onPreferenceChange(preference,
-                        PreferenceManager
-                                .getDefaultSharedPreferences(preference.getContext())
-                                .getString(preference.getKey(), ""));
+        preference.setOnPreferenceChangeListener(this);
+
+        // Trigger the listener immediately with the preference's
+        // current value.
+        onPreferenceChange(preference,
+                PreferenceManager
+                        .getDefaultSharedPreferences(preference.getContext())
+                        .getString(preference.getKey(), ""));
     }
 
     @Override
