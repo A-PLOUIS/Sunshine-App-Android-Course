@@ -3,8 +3,13 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="pierre_louisantonio.sunshine.app.SettingsActivity$GeneralPreferenceFragment"
-        android:title="@string/pref_header_general" />
+    android:fragment="pierre_louisantonio.sunshine.app.SettingsActivity$GeneralPreferenceFragment"
+    android:title="@string/pref_header_general"
+       >
+        <extra
+            android:name="location"
+            android:value="@string/pref_location_key"/>
+       </header>
 
     <header
         android:fragment="pierre_louisantonio.sunshine.app.SettingsActivity$NotificationPreferenceFragment"
