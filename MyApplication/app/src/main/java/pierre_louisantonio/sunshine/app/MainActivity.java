@@ -1,7 +1,10 @@
 package pierre_louisantonio.sunshine.app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +23,24 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    private void openPreferredLocationOnMap(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String location = preferences.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_key_default));
+
+        // Create the text message with a string
+        Intent mapIntent = new Intent();
+        mapIntent.setAction(Intent.ACTION_VIEW);
+
+        Uri mapURI = Uri.parse("geo:0,0?").buildUpon()
+                .appendQueryParameter("q",location)
+                .build();
+
+        mapIntent.setData(mapURI);
+// Verify that the intent will resolve to an activity
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapIntent);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -37,6 +58,8 @@ public class MainActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             startActivity(new Intent(this,SettingsActivity.class));
             return true;
+        }else if(id == R.id.action_maps){
+            openPreferredLocationOnMap();
         }
         return super.onOptionsItemSelected(item);
     }

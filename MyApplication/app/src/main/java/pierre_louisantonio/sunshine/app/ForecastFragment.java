@@ -84,7 +84,6 @@ public class ForecastFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.forecastfragment,menu);
     }
 
     @Override
@@ -95,8 +94,6 @@ public class ForecastFragment extends Fragment {
 
     private void updateweather(){
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-        final String PREFS_FILE= getString(R.xml.pref_general);
-        Log.d(LOG_TAG,"Pref_file : " + PREFS_FILE);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
         String location = preferences.getString(getString(R.string.pref_location_key),getString(R.string.pref_location_key_default));
         Log.d(LOG_TAG,"Location in settings = " + location);
@@ -145,7 +142,7 @@ public class ForecastFragment extends Fragment {
             try{
                 //Construction de l'URL
                 final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
-                final String QUERY_PARAM = "id";
+                final String QUERY_PARAM = "q";
                 final String FORMAT_PARAM = "mode";
                 final String UNITS_PARAM = "units";
                 final String DAYS_PARAM = "cnt";
