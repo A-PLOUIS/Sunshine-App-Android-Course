@@ -9,19 +9,19 @@
     <string name="pref_title_social_recommendations">Enable social recommendations</string>
     <string name="pref_description_social_recommendations">Recommendations for people to contact based on your message history</string>
 
-    <string name="pref_location_key" translatable="false">Lieu</string>
+    <string name="pref_location_key" >Location</string>
     <string name="pref_location_key_default" translatable="false">3570584</string>
 
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
+    <string name="pref_units_key" translatable="false">liste_unit</string>
+    <string name="pref_title_list_units" translatable="true">Pick your unit</string>
+    <string name="pref_units_key_default">imperial</string>
+    <string-array name="pref_list_units">
+        <item>Metric</item>
+        <item>Imperial</item>
     </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
+    <string-array name="pref_list_units_values">
+        <item>metric</item>
+        <item>imperial</item>
     </string-array>
 
     <!-- Example settings for Data & Sync -->

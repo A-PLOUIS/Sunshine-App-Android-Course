@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_title_list_units">Choisir l\'unité</string>
+    <string name="pref_location_key">Lieu</string>
+    <string name="action_settings">Options</string>
+    <string name="title_activity_settings">Options</string>
+    <string name="title_activity_detail">Détail</string>
+</resources>

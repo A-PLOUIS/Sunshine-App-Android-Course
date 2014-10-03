@@ -138,7 +138,8 @@ public class ForecastFragment extends Fragment {
 
             //Param for the URL
             String format ="json";
-            String unit ="metric";
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+            String unit = preferences.getString(getString(R.string.pref_units_key),getString(R.string.pref_units_key_default));
             int days = 7;
 
             try{
@@ -231,6 +232,9 @@ public class ForecastFragment extends Fragment {
          */
         private String formatHighLows(double high, double low) {
             // For presentation, assume the user doesn't care about tenths of a degree.
+            //Convert to farenheit
+
+
             long roundedHigh = Math.round(high);
             long roundedLow = Math.round(low);
 
