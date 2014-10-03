@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="action_maps">Show on map</string>
+    <string name="action_share">Share</string>
 
 </resources>

@@ -6,13 +6,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    @Override
+    private final String LOG_TAG = MainActivity.class.getSimpleName();
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -39,6 +41,8 @@ public class MainActivity extends ActionBarActivity {
 // Verify that the intent will resolve to an activity
         if (mapIntent.resolveActivity(getPackageManager()) != null) {
             startActivity(mapIntent);
+        }else{
+            Log.d(LOG_TAG,"Impossible d'afficher " + location + "sur la carte");
         }
     }
 
